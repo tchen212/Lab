@@ -1,4 +1,4 @@
-JS
+Lab
 ==
 
-JavaScript code
+存放一些有意思的小东西
