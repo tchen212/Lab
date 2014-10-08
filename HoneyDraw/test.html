@@ -1,0 +1,89 @@
+<html>
+<head>
+<title></title>
+<script type="text/javascript">
+	// 定义object的基类用于实现最基础的方法
+	var object = {
+		isA:function(aType){
+			var self = this;
+			while(self){
+				if(self == aType){
+					return true;
+				}
+				self = self.Type;
+			}
+			return false;
+		}
+	};
+
+	/**
+	 * 创建类
+	 * @param baseClass {object} 基类
+	 * @param params {object} 构造参数
+	 * @return {object} 构造的类
+	 */
+	var Class = function(baseClass,params){
+		function _class(){
+			this.type = baseClass;
+			for(param in params){
+				this[param] = params[param];
+			}
+		}
+		_class.prototype = baseClass;
+		return new _class();
+	}
+
+	/**
+	 * 创建类的实例对象
+	 * @param className {object} 类
+	 * @param params {object} 构造参数
+	 * @return {object} 类的实例对象
+	 */
+	var New = function(className,params){
+		function _new(){
+			this.type = className;
+			if("Create" in params){
+				params.Create.apply(this,params)
+			}
+		}
+		_new.prototype = className;
+		return new _new();
+	}
+
+	// 动物类
+	var Animal = Class(object,{
+		"Create":function(name,age){
+			this.name = name;
+			this.age = age;
+		},
+		"Run":function(){
+			alert(this.name+"is running...");
+		}
+	});
+
+	// 狗类继承自动物类
+	var Dog = New(Animal,{
+		"Create":function(name,age,color){
+			Animal.Create.call(this,name,age);
+			this.color = color;
+		},
+		"GetColor":function(){
+			alert("my color is "+this.color);
+		}
+	})
+
+	var cat = New(Animal,["sandy",2]);
+	cat.Run();
+	var laifu = New(Dog,["laifu",3,"black"]);
+	laifu.Run();
+	laifu.GetColor();
+
+	document.write(cat.isA(Animal));
+	document.write(cat.isA(Dog));
+	laifu.isA(Animal);
+	laifu.isA(Dog);
+
+</script>
+</head>
+<body></body>
+</html>
