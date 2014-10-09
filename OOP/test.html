@@ -25,7 +25,7 @@
 	/**
 	 * 创建类
 	 * @param baseClass {object} 基类
-	 * @param params {object} 构造参数
+	 * @param params {Array} 构造参数
 	 * @return {object} 构造的类
 	 */
 	var Class = function(baseClass,params){
@@ -41,16 +41,16 @@
 
 	/**
 	 * 创建类的实例对象
-	 * 默认构造参数的Create方法为构造方法
+	 * 默认类的Create方法为构造方法
 	 * @param className {object} 类
-	 * @param params {object} 构造参数
+	 * @param params {Array} 构造参数
 	 * @return {object} 类的实例对象
 	 */
 	var New = function(className,params){
 		function _new(){
 			this.Type = className;
-			if("Create" in params){ 
-				params.Create.apply(this,params)
+			if("Create" in className){ 
+				className.Create.apply(this,params)
 			}
 		}
 		_new.prototype = className;
@@ -64,7 +64,8 @@
 			this.age = age;
 		},
 		"Run":function(){
-			alert(this.name+"is running...");
+			document.write("my name is "+this.name+", my "+this.age+" year old , i'm running...");
+			document.write("<br/>");
 		}
 	});
 
@@ -75,19 +76,21 @@
 			this.color = color;
 		},
 		"GetColor":function(){
-			alert("my color is "+this.color);
+			document.write(this.name+"'s color is <span style='font-weight:bold;color:"+this.color+";'>"+this.color+"</span>");
+			document.write("<br/>");
 		}
 	})
 
-	var cat = New(Animal,["sandy",2]);
-	cat.Run();
-	var laifu = New(Dog,["laifu",3,"black"]);
+	var tom = New(Animal,["sandy",2]);
+	tom.Run();
+	var laifu = New(Dog,["laifu",3,"red"]);
 	laifu.Run();
 	laifu.GetColor();
 
-	document.write("cat is a animal ? "+cat.isA(Animal));
+	document.write("<br/><br/><br/><br/>");
+	document.write("tom is a animal ? "+tom.isA(Animal));
 	document.write("<br/>");
-	document.write("cat is a dog ? "+cat.isA(Dog));
+	document.write("tom is a dog ? "+tom.isA(Dog));
 	document.write("<br/>");
 	document.write("laifu is a animal ? "+laifu.isA(Animal));
 	document.write("<br/>");
