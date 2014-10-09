@@ -1,9 +1,15 @@
 <html>
 <head>
-<title></title>
+<title>OOP</title>
 <script type="text/javascript">
 	// 定义object的基类用于实现最基础的方法
 	var object = {
+		/**
+		 * 判断是否为指定对象类型
+		 * Class函数构建的类通过Type属性体现继承的父类，一直找到最顶端对象，如果没有则返回false
+		 * @param aType {object} 指定类型
+		 * @return {bool} 是否为指定类型
+		 */
 		isA:function(aType){
 			var self = this;
 			while(self){
@@ -24,7 +30,7 @@
 	 */
 	var Class = function(baseClass,params){
 		function _class(){
-			this.type = baseClass;
+			this.Type = baseClass;
 			for(param in params){
 				this[param] = params[param];
 			}
@@ -35,14 +41,15 @@
 
 	/**
 	 * 创建类的实例对象
+	 * 默认构造参数的Create方法为构造方法
 	 * @param className {object} 类
 	 * @param params {object} 构造参数
 	 * @return {object} 类的实例对象
 	 */
 	var New = function(className,params){
 		function _new(){
-			this.type = className;
-			if("Create" in params){
+			this.Type = className;
+			if("Create" in params){ 
 				params.Create.apply(this,params)
 			}
 		}
@@ -62,7 +69,7 @@
 	});
 
 	// 狗类继承自动物类
-	var Dog = New(Animal,{
+	var Dog = Class(Animal,{
 		"Create":function(name,age,color){
 			Animal.Create.call(this,name,age);
 			this.color = color;
@@ -78,10 +85,13 @@
 	laifu.Run();
 	laifu.GetColor();
 
-	document.write(cat.isA(Animal));
-	document.write(cat.isA(Dog));
-	laifu.isA(Animal);
-	laifu.isA(Dog);
+	document.write("cat is a animal ? "+cat.isA(Animal));
+	document.write("<br/>");
+	document.write("cat is a dog ? "+cat.isA(Dog));
+	document.write("<br/>");
+	document.write("laifu is a animal ? "+laifu.isA(Animal));
+	document.write("<br/>");
+	document.write("laifu is a dog ? "+laifu.isA(Dog));
 
 </script>
 </head>
